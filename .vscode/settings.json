@@ -1,0 +1,11 @@
+{
+    "java.jdt.ls.java.home": "C:\\Program Files\\Java\\jdk-23",
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.format.settings.url": "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml",
+    "java.format.settings.profile": "GoogleStyle",
+    "java.import.gradle.enabled": true,
+    "java.import.maven.enabled": true,
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar"
+    ]
+}
