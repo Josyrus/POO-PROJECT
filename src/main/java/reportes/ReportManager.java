@@ -22,25 +22,34 @@ public class ReportManager {
         this.customerManger = customerManger;
     }
 
-    public void generateSalesReport() {
-        System.out.println("=== Reporte de Ventas ===");
-        try (PrintWriter writer = new PrintWriter(new FileWriter("data/reporte_ventas.txt"))) {
-            Map<Integer, HashMap<Product, Integer>> sales = saleManager.getAllSales();
+public void generateSalesReport() {
+    System.out.println("=== Reporte de Ventas ===");
+    try (PrintWriter writer = new PrintWriter(new FileWriter("data/reporte_ventas.txt"))) {
+        Map<Integer, HashMap<Product, Integer>> sales = saleManager.getAllSales();
+        
         for (Map.Entry<Integer, HashMap<Product, Integer>> entry : sales.entrySet()) {
             int saleId = entry.getKey();
             HashMap<Product, Integer> items = entry.getValue();
 
-            System.out.println("Venta ID: " + saleId);
+            String header = "Venta ID: " + saleId;
+            System.out.println(header);
+            writer.println(header);
+
             for (Map.Entry<Product, Integer> item : items.entrySet()) {
                 Product p = item.getKey();
                 int quantity = item.getValue();
-                System.out.println(" - " + p.getName() + " x" + quantity + " = $" + (p.getPrice() * quantity));
+                String line = " - " + p.getName() + " x" + quantity + " = $" + (p.getPrice() * quantity);
+                System.out.println(line);
+                writer.println(line);
             }
         }
-        } catch (IOException e) {
-            System.out.println("Error al escribir el reporte de ventas: " + e.getMessage());
-        }
+
+        System.out.println("Reporte de ventas generado en data/reporte_ventas.txt");
+    } catch (IOException e) {
+        System.out.println("Error al escribir el reporte de ventas: " + e.getMessage());
     }
+}
+
 
     public void generateCustomerReport() {
         System.out.println("=== Reporte de Clientes ===");

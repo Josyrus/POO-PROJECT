@@ -4,7 +4,6 @@ import pedidos.OrderManager;
 import product.ProductManager;
 import product.Product;
 import ventas.SaleManager;
-import java.io.Console;
 import java.util.*;
 import auth.LoginManager;
 
@@ -20,6 +19,7 @@ public class App {
 
         if (!loginManager.authenticate(username, password)) {
             System.out.println("Credenciales inválidas. Saliendo...");
+            scanner.close();
             return;
         }
         System.out.println("Inicio de sesión exitoso.\n");
