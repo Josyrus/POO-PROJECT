@@ -1,15 +1,12 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-
         {
             "type": "java",
-            "name": "Current File",
+            "name": "Launch App",
             "request": "launch",
-            "mainClass": "src.main.java.app.App"
+            "mainClass": "app.App",
+            "projectName": "my-java-workspace" // Este nombre debería coincidir con el artifactId o nombre del proyecto Maven
         }
     ]
 }

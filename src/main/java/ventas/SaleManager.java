@@ -1,15 +1,45 @@
-package src.main.java.ventas;
+package ventas;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import product.Product;
+
 public class SaleManager {
-    
-    public void createSale() {
-        // Logic to create a sale
+    private HashMap<Integer, ArrayList<Product>> sales;
+    private int nextSaleId;
+
+    public SaleManager() {
+        sales = new HashMap<>();
+        nextSaleId = 1;
     }
 
-    public void getSale(int saleId) {
-        // Logic to retrieve a sale by its ID
+    public void createSale(ArrayList<Product> products) {
+        sales.put(nextSaleId, products);
+        System.out.println("Venta creada con ID: " + nextSaleId);
+        nextSaleId++;
+    }
+
+    public ArrayList<Product> getSale(int saleId) {
+        ArrayList<Product> sale = sales.get(saleId);
+        if (sale != null) {
+            System.out.println("Venta encontrada: ID " + saleId);
+            return sale;
+        } else {
+            System.out.println("No se encontró la venta con ID: " + saleId);
+            return null;
+        }
     }
 
     public void deleteSale(int saleId) {
-        // Logic to delete a sale by its ID
+        if (sales.containsKey(saleId)) {
+            sales.remove(saleId);
+            System.out.println("Venta eliminada: ID " + saleId);
+        } else {
+            System.out.println("No se encontró la venta con ID: " + saleId);
+        }
     }
+    public Map<Integer, ArrayList<Product>> getAllSales() {
+        return sales;
+    }
+
 }

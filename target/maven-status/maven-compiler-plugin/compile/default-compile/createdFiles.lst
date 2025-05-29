@@ -1,0 +1,8 @@
+app\App.class
+product\Product.class
+clientes\Customer.class
+ventas\SaleManager.class
+clientes\CustomerManager.class
+reportes\ReportManager.class
+product\ProductManager.class
+pedidos\OrderManager.class

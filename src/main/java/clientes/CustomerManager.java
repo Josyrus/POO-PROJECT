@@ -1,21 +1,37 @@
-package src.main.java.clientes;
+package clientes;
 import java.util.ArrayList;
-import src.main.java.clientes.Customer;
+import java.util.List;
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
-public class CustomerManger {
+import java.nio.charset.StandardCharsets;
+public class CustomerManager {
+    private static final String ARCHIVO_CLIENTES = "data/customers.txt";
     private ArrayList<Customer> customers;
     ByteArrayOutputStream byteArrayOutputStream;
     FileOutputStream fileOutputStream;
-    public CustomerManger() {
+    public CustomerManager() {
         customers = new ArrayList<>();
         byteArrayOutputStream = new ByteArrayOutputStream();
         fileOutputStream = null;
+    }
+    static{
+        File archivo = new File(ARCHIVO_CLIENTES);
         try {
-            fileOutputStream = new FileOutputStream("customers.txt");
+            archivo.getParentFile().mkdirs();
+            archivo.createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+    public void printAllCustomers() {
+        for (Customer c : customers) {
+            System.out.println("ID: " + c.getId() + ", Nombre: " + c.getName() + ", Alias: " + c.getAlias());
         }
     }
     public void addCustomer(int id, String name, String alias, String direction, int phone) {
@@ -74,10 +90,50 @@ public class CustomerManger {
         customer.setPhone(0); // Logic to delete a customer     
         customer = null; // Logic to delete a customer
     }
+    
     public void WriteCustomerToFile(Customer customer) {
-        // Logic to write customer to a file
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(ARCHIVO_CLIENTES, true))){
+            writer.write(customer.toArchive());
+            writer.newLine();
+            System.out.println("Cliente registrado con ID: " + customer.getId());
+        }catch (IOException e){
+            System.out.println("Error al guardar el cliente.");
+            e.printStackTrace();
+        }
     }
     public void ReadCustomerFromFile() {
-        // Logic to read customer from a file
+        try (BufferedReader reader = new BufferedReader(new FileReader(ARCHIVO_CLIENTES))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length == 5) {
+                    int id = Integer.parseInt(fromHex(parts[0]));
+                    String name = fromHex(parts[1]);
+                    String alias = fromHex(parts[2]);
+                    String direction = fromHex(parts[3]);
+                    int phone = Integer.parseInt(fromHex(parts[4]));
+                    Customer customer = new Customer(id, name, alias, direction, phone);
+                    customers.add(customer);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private String fromHex(String hex) {
+        int len = hex.length();
+        byte[] data = new byte[len / 2];
+        for (int i = 0; i < len; i += 2)
+        {
+            data[i / 2] = (byte) ((Character.digit(hex.charAt(i), 16) << 4)+ Character.digit(hex.charAt(i+1), 16));
+        }
+        return new String(data, StandardCharsets.UTF_8);
+    }
+    public List<String> getCustomerReportLines() {
+        List<String> lines = new ArrayList<>();
+    for (Customer c : customers) {
+        lines.add(c.getId() + " - " + c.getName());
+    }
+        return lines;
     }
 }
