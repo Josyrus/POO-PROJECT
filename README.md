@@ -3,9 +3,9 @@
 ## Project Overview
 This project is a Java application that manages sales, customers, orders, and reports. It is structured to facilitate easy management of these entities through dedicated classes.
 ## Project Members
-Garcia Guerra Andres Caleb
-Flores Dominguez Beatriz Monica
-Arcos Garduño Ayax
+Garcia Guerra Andres Caleb <br>
+Flores Dominguez Brenda Monica <br>
+Arcos Garduño Ayax Itzcoatl 
 ## Project Structure
 ```
 my-java-workspace
