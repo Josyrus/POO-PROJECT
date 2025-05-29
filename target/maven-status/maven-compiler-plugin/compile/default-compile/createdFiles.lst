@@ -1,4 +1,5 @@
 app\App.class
+auth\LoginManager.class
 product\Product.class
 clientes\Customer.class
 ventas\SaleManager.class

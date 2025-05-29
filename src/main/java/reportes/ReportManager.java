@@ -8,7 +8,6 @@ import product.Product;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +15,7 @@ public class ReportManager {
     private SaleManager saleManager;
     private OrderManager orderManager;
     private CustomerManager customerManger;
-
+    
     public ReportManager(SaleManager saleManager, OrderManager orderManager, CustomerManager customerManger) {
         this.saleManager = saleManager;
         this.orderManager = orderManager;
@@ -25,20 +24,19 @@ public class ReportManager {
 
     public void generateSalesReport() {
         System.out.println("=== Reporte de Ventas ===");
-        try (PrintWriter writer = new PrintWriter(new FileWriter("reporte_ventas.txt"))) {
-            Map<Integer, ArrayList<Product>> sales = saleManager.getAllSales();
-            for (Map.Entry<Integer, ArrayList<Product>> entry : sales.entrySet()) {
-                int saleId = entry.getKey();
-                String saleInfo = "Venta ID: " + saleId;
-                System.out.println(saleInfo);
-                writer.println(saleInfo);
+        try (PrintWriter writer = new PrintWriter(new FileWriter("data/reporte_ventas.txt"))) {
+            Map<Integer, HashMap<Product, Integer>> sales = saleManager.getAllSales();
+        for (Map.Entry<Integer, HashMap<Product, Integer>> entry : sales.entrySet()) {
+            int saleId = entry.getKey();
+            HashMap<Product, Integer> items = entry.getValue();
 
-                for (Product p : entry.getValue()) {
-                    String productLine = " - " + p.getName() + " | Precio: $" + p.getPrice();
-                    System.out.println(productLine);
-                    writer.println(productLine);
-                }
+            System.out.println("Venta ID: " + saleId);
+            for (Map.Entry<Product, Integer> item : items.entrySet()) {
+                Product p = item.getKey();
+                int quantity = item.getValue();
+                System.out.println(" - " + p.getName() + " x" + quantity + " = $" + (p.getPrice() * quantity));
             }
+        }
         } catch (IOException e) {
             System.out.println("Error al escribir el reporte de ventas: " + e.getMessage());
         }
